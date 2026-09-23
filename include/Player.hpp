@@ -1,22 +1,31 @@
 #pragma once
 
+#include <stdint.h>
 #include <vector>
 
-#include "Card.hpp"
-#include "Game.hpp"
-
 namespace dark {
+    class Card;
+    class Game;
+
     class Player {
     private:
         std::vector<std::vector<dark::Card>> playerCardStacks;
         int budget = 0;
         int currentBet = 0;
-        dark::Game* game;
+        
+        dark::Game* game = nullptr;
+        bool turn = false;
+
+        void clearCards() noexcept;
 
     public:
-        Player() noexcept;
+        Player(uint16_t budget = 1000) noexcept;
 
+        void addBudget(uint16_t amount) noexcept;
+        bool bet(uint16_t amount) noexcept;
         bool doubleDown() noexcept;
+
+        void play() noexcept;
 
         bool hit() noexcept;
 
@@ -25,7 +34,13 @@ namespace dark {
         bool split(uint8_t deck) noexcept;
         bool splittable(uint8_t deck) const noexcept;
 
-        bool judge(uint8_t stack) noexcept;
+        bool judge(uint8_t stack) const noexcept;
+        uint8_t getStackSum(uint8_t stack) const noexcept;
 
+        void win() noexcept;
+        void bust() noexcept;
+
+        bool hasTurn() const noexcept;
+        void queryMove() noexcept;
     };
 }
