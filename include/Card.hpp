@@ -19,6 +19,7 @@ namespace dark {
         Card(uint8_t t, uint8_t v);
         uint8_t getValue() const noexcept;
         uint8_t getType() const noexcept;
+        uint8_t getImage() const noexcept;
         std::string getFullName() const noexcept;
     };
 }

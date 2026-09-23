@@ -1,4 +1,4 @@
-#include "Card.hpp"
+#include "Darkjack.hpp"
 #include "InitException.hpp"
 
 dark::Card::Card() {
@@ -69,6 +69,10 @@ std::string dark::Card::getFullName() const noexcept {
     }
 
     return n + t;
+}
+
+uint8_t dark::Card::getImage() const noexcept {
+    return this->image;
 }
 
 bool dark::Card::validCard() {
