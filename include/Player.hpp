@@ -20,6 +20,7 @@ namespace dark {
 
     public:
         Player(uint16_t budget = 1000) noexcept;
+        ~Player();
 
         void addBudget(uint16_t amount) noexcept;
         bool bet(uint16_t amount) noexcept;

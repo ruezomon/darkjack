@@ -2,6 +2,8 @@
 
 dark::Player::Player(uint16_t budget) : budget(budget), game(new dark::Game(this)) {}
 
+dark::Player::~Player() { delete this->game; }
+
 void dark::Player::addBudget(uint16_t amount) noexcept {
     this->budget += amount;
 }
