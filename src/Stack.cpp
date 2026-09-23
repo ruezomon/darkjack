@@ -1,9 +1,10 @@
 #include <random>
 
-#include "Stack.hpp"
+#include "Darkjack.hpp"
 
 dark::Stack::Stack() noexcept {
     srand(time(NULL));
+    this->cardTemplateArray = new dark::Card[52];
 
     for (uint8_t i = 0; i < 4; i++) {
         for (uint8_t j = 0; j < 13; j++) {

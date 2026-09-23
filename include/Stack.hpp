@@ -2,13 +2,13 @@
 
 #include <vector>
 
-#include "Card.hpp"
-
 namespace dark {
+    class Card;
+
     class Stack {
     private:
         std::vector<dark::Card>* cardstack = new std::vector<dark::Card>();
-        dark::Card* cardTemplateArray = new dark::Card[52];
+        dark::Card* cardTemplateArray;
     public:
         Stack() noexcept;
         void shuffle() noexcept;
