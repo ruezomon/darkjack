@@ -1,6 +1,12 @@
 #include "Card.hpp"
 #include "InitException.hpp"
 
+dark::Card::Card() {
+    this->type = 0;
+    this->image = 0;
+    this->value = 0;
+}
+
 dark::Card::Card(uint8_t t, uint8_t i) {
     if (i > 13 || i < 1 || t < 0 || t > 3) throw InitException("Value and/or Type initialized incorrectly");
 
@@ -63,4 +69,8 @@ std::string dark::Card::getFullName() const noexcept {
     }
 
     return n + t;
+}
+
+bool dark::Card::validCard() {
+    return value != 0 && image != 0;
 }
