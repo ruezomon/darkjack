@@ -12,7 +12,9 @@ dark::Card::Card(uint8_t t, uint8_t i) {
 
     this->type = t;
     this->image = i;
-    this->value = i > 10 ? 10 : i;
+    this->value = i > 10 ? 10 : 
+                  i == 1 ? 11 : 
+                  i;
 }
 
 uint8_t dark::Card::getValue() const noexcept {
