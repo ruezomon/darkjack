@@ -1,4 +1,7 @@
-#include "../include/Darkjack.hpp"
+#include <iostream>
+
+#include "Darkjack.hpp"
+#include "ColorDefinitions.hpp"
 
 dark::Game::Game(dark::Player* p) : player(p), stack(new dark::Stack()) {}
 
@@ -8,6 +11,9 @@ dark::Game::~Game() {
 
 void dark::Game::start() noexcept {
     drawCardsDealer(2);
+    printDealerCards();
+    player->giveCard(false);
+    player->giveCard(true);
     player->queryMove();
 }
 
@@ -42,6 +48,7 @@ uint8_t dark::Game::getDealerSum() const noexcept {
 
 void dark::Game::finishGame() noexcept {
     drawRestOfDealerCards();
+    printDealerCards();
 
     uint8_t playerSum = player->getSum();
     uint8_t dealerSum = getDealerSum();
@@ -55,4 +62,14 @@ void dark::Game::finishGame() noexcept {
 void dark::Game::drawRestOfDealerCards() noexcept {
     while (getDealerSum() < 17)
         drawCardsDealer(1);
+}
+
+void dark::Game::printDealerCards() noexcept {
+    std::cout << RED << std::flush;
+    std::cout << "Dealers cards: " << std::endl;
+    for (auto i : dealerStack) {
+        std::cout << i.getFullName() << std::endl;
+    }
+    std::cout << "Sum: " << static_cast<int>(getDealerSum()) << std::endl;
+    std::cout << RESET << std::endl;
 }

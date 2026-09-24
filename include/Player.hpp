@@ -25,6 +25,7 @@ namespace dark {
         void stand() noexcept;
         bool doubleDown() noexcept;
 
+        void printCards() const noexcept;
 
     public:
         Player(std::string n, uint16_t budget = 1000) noexcept;
@@ -35,6 +36,8 @@ namespace dark {
 
         uint8_t getSum() const noexcept;
         uint16_t getBudget() const noexcept;
+
+        void giveCard(bool verbal = true) noexcept;
 
         void win() noexcept;
         void bust() noexcept;

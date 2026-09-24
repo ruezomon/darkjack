@@ -15,8 +15,9 @@ namespace dark {
         
         dark::Player* player = nullptr;
 
-        // will not implement splitting for dealer
         std::vector<dark::Card> dealerStack;
+
+        void printDealerCards() noexcept;
 
         void drawCardsDealer(uint8_t n = 1) noexcept;
         void drawRestOfDealerCards() noexcept;

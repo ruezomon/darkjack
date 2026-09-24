@@ -2,6 +2,7 @@
 #include <string>
 
 #include "Darkjack.hpp"
+#include "ColorDefinitions.hpp"
 
 dark::Player::Player(std::string n, uint16_t budget) noexcept : budget(budget), game(new dark::Game(this)), name(n) {}
 
@@ -15,10 +16,21 @@ uint16_t dark::Player::getBudget() const noexcept {
     return this->budget;
 }
 
+void dark::Player::printCards() const noexcept {
+    std::cout << BLUE << std::flush;
+    std::cout << name << "'s cards: " << std::endl;
+    for (auto card : playerCardStack) {
+        std::cout << card.getFullName() << std::endl;
+    }
+    std::cout << "Sum: " << static_cast<int>(getSum()) << std::endl;
+    std::cout << RESET << std::endl;
+}
+
 bool dark::Player::bet(uint16_t amount) noexcept {
     if (amount > budget) return false;
     this->currentBet = amount;
     this->budget -= amount;
+    std::cout << name << " has bet " << currentBet << "$" << std::endl;
 
     this->play();
     return true;
@@ -28,6 +40,7 @@ bool dark::Player::doubleDown() noexcept {
     if (this->budget < this->currentBet) return false;
     this->budget -= this->currentBet;
     this->currentBet *= 2;
+    std::cout << name << " has raised their bet to " << currentBet << "$" << std::endl;
     return true; 
 }
 
@@ -42,8 +55,15 @@ void dark::Player::hit() noexcept {
     else if (this->getSum() > 21) queryForNextMove = false;
     else queryForNextMove = true;
 
+    printCards();
+
     if (queryForNextMove) queryMove();
     else stand();
+}
+
+void dark::Player::giveCard(bool verbal) noexcept {
+    playerCardStack.push_back(this->game->drawCard());
+    if (verbal) printCards();
 }
 
 void dark::Player::stand() noexcept {
@@ -66,23 +86,28 @@ uint8_t dark::Player::getSum() const noexcept {
 }
 
 void dark::Player::win() noexcept {
+    std::cout << name << " has won!" << std::endl;
+
     budget += currentBet * 2;
     currentBet = 0;
     clearCards();
 }
 
 void dark::Player::bust() noexcept {
+    std::cout << name << " has busted!" << std::endl;
     lose();
 }
 
 void dark::Player::lose() noexcept {
     currentBet = 0;
+    std::cout << name << " has lost!" << std::endl;
     clearCards();
 }
 
 void dark::Player::push() noexcept {
     budget += currentBet;
     currentBet = 0;
+    std::cout << name << " has pushed!" << std::endl;
     clearCards();
 }
 
