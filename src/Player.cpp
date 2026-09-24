@@ -11,6 +11,10 @@ void dark::Player::addBudget(uint16_t amount) noexcept {
     this->budget += amount;
 }
 
+uint16_t dark::Player::getBudget() const noexcept {
+    return this->budget;
+}
+
 bool dark::Player::bet(uint16_t amount) noexcept {
     if (amount > budget) return false;
     this->currentBet = amount;
@@ -42,7 +46,6 @@ bool dark::Player::hit() noexcept {
 }
 
 void dark::Player::stand() noexcept {
-    this->turn = false;
     game->finishGame();
 }
 
@@ -79,22 +82,21 @@ void dark::Player::clearCards() noexcept {
     playerCardStack.clear();
 }
 
-bool dark::Player::hasTurn() const noexcept {
-    return this->turn;
-}
-
 void dark::Player::queryMove() noexcept {
     std::string userInput = "";
     bool inputValid = false;
     bool hit;
     do {
         std::cout << "Enter your next move: " << std::endl
-                  << "(1/h/hit) ... hit" << std::endl
-                  << "(2/s/stand) ... hit" << std::endl;
+                  << "(1/h/hit) ........... hit" << std::endl
+                  << "(2/s/stand) ....... stand" << std::endl
+                  << "(3/d/dd) .... double down" << std::endl;
         std::cin >> userInput;
         if (userInput == "1" || userInput == "h" || userInput == "hit") { hit = true; inputValid = true; }
         else if (userInput == "2" || userInput == "s" || userInput == "stand") { hit = false; inputValid = true; }
         else inputValid = false;
+
+        if (userInput == "3" || userInput == "d" || userInput == "dd") doubleDown();
     } while (!inputValid);
 
     if (hit) this->hit();
