@@ -16,8 +16,12 @@ $ make
 $ ./
 ```
 
-## When will this be done?
-Most likely never
+## TODO
+- Make custom bets
+- Save your budget in a .toml or something similar
+- - When on 0$, somebody else might just feel charitable enough to give you a dime or two...
+- Make the game understand, that when the dealer wins/loses, the round must stop lol
+- Multiple rounds (play again Y/n)
 
 ## Should I play this?
 For the sake of your time, it would be better not to. 
