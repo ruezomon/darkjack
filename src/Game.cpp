@@ -9,6 +9,7 @@ dark::Game::~Game() {
 
 void dark::Game::start() noexcept {
     drawCardsDealer(2);
+    player->queryMove();
 }
 
 void dark::Game::reshuffle() noexcept {
@@ -41,12 +42,21 @@ uint8_t dark::Game::getDealerSum() const noexcept {
 }
 
 void dark::Game::finishGame() noexcept {
+    drawRestOfDealerCards();
+
+    bool _win = false;
     bool _bust = false;
     bool _lose = false;
+    _win = getDealerSum() > 21;
     _bust = player->getSum() > 21;
     _lose = player->getSum() <= getDealerSum();
 
     if (_bust) player->bust();
     else if (_lose) player->lose();
     else player->win();
+}
+
+void dark::Game::drawRestOfDealerCards() noexcept {
+    while (getDealerSum() < 17)
+        drawCardsDealer(1);
 }
