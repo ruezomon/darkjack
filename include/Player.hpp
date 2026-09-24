@@ -21,7 +21,7 @@ namespace dark {
         void play() noexcept;
         void clearCards() noexcept;
 
-        bool hit() noexcept;
+        void hit() noexcept;
         void stand() noexcept;
         bool doubleDown() noexcept;
 
@@ -38,6 +38,7 @@ namespace dark {
 
         void win() noexcept;
         void bust() noexcept;
+        void push() noexcept;
         void lose() noexcept;
 
         void queryMove() noexcept;

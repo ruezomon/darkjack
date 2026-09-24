@@ -3,7 +3,7 @@
 
 #include "Darkjack.hpp"
 
-dark::Player::Player(std::string n, uint16_t budget) : budget(budget), game(new dark::Game(this)), name(n) {}
+dark::Player::Player(std::string n, uint16_t budget) noexcept : budget(budget), game(new dark::Game(this)), name(n) {}
 
 dark::Player::~Player() { delete this->game; }
 
@@ -21,10 +21,11 @@ bool dark::Player::bet(uint16_t amount) noexcept {
     this->budget -= amount;
 
     this->play();
+    return true;
 }
 
 bool dark::Player::doubleDown() noexcept {
-    if (this->budget - this->currentBet < 0) return false;
+    if (this->budget < this->currentBet) return false;
     this->budget -= this->currentBet;
     this->currentBet *= 2;
     return true; 
@@ -34,7 +35,7 @@ void dark::Player::play() noexcept {
     game->start();
 }
 
-bool dark::Player::hit() noexcept {
+void dark::Player::hit() noexcept {
     bool queryForNextMove = true;
     playerCardStack.push_back(this->game->drawCard());
     if (this->getSum() == 21) queryForNextMove = false;
@@ -61,6 +62,7 @@ uint8_t dark::Player::getSum() const noexcept {
     while (sum > 21 && i < aceAmount) {
         sum -= 10;
     }
+    return sum;
 }
 
 void dark::Player::win() noexcept {
@@ -74,6 +76,12 @@ void dark::Player::bust() noexcept {
 }
 
 void dark::Player::lose() noexcept {
+    currentBet = 0;
+    clearCards();
+}
+
+void dark::Player::push() noexcept {
+    budget += currentBet;
     currentBet = 0;
     clearCards();
 }

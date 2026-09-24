@@ -4,7 +4,6 @@ dark::Game::Game(dark::Player* p) : player(p), stack(new dark::Stack()) {}
 
 dark::Game::~Game() {
     delete stack;
-    delete playerWatcher;
 }
 
 void dark::Game::start() noexcept {
@@ -44,16 +43,13 @@ uint8_t dark::Game::getDealerSum() const noexcept {
 void dark::Game::finishGame() noexcept {
     drawRestOfDealerCards();
 
-    bool _win = false;
-    bool _bust = false;
-    bool _lose = false;
-    _win = getDealerSum() > 21;
-    _bust = player->getSum() > 21;
-    _lose = player->getSum() <= getDealerSum();
+    uint8_t playerSum = player->getSum();
+    uint8_t dealerSum = getDealerSum();
 
-    if (_bust) player->bust();
-    else if (_lose) player->lose();
-    else player->win();
+    if (playerSum > 21) player->bust();
+    else if (dealerSum > 21 || playerSum > dealerSum) player->win();
+    else if (playerSum == dealerSum) player->push();
+    else player->lose();
 }
 
 void dark::Game::drawRestOfDealerCards() noexcept {

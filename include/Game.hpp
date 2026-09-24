@@ -14,7 +14,6 @@ namespace dark {
         bool running;
         
         dark::Player* player = nullptr;
-        std::thread* playerWatcher = nullptr;
 
         // will not implement splitting for dealer
         std::vector<dark::Card> dealerStack;

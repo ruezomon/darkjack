@@ -55,7 +55,7 @@ std::string dark::Card::getFullName() const noexcept {
             break;
     }
 
-    switch (this->value) {
+    switch (this->type) {
         case dark::club:
             t = " of clubs";
             break;
