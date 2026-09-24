@@ -26,11 +26,11 @@ void dark::Player::play() noexcept {
 }
 
 bool dark::Player::hit() noexcept {
-
+    
 }
 
 void dark::Player::stand() noexcept {
-
+    this->turn = false;
 }
 
 bool dark::Player::split(uint8_t deck) noexcept {

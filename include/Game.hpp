@@ -10,23 +10,27 @@ namespace dark {
 
     class Game {
     private:
-        dark::Stack* stack;
+        dark::Stack* stack = nullptr;
         bool running;
         
-        dark::Player* player;
-        std::thread* playerWatcher;
+        dark::Player* player = nullptr;
+        std::thread* playerWatcher = nullptr;
 
         // will not implement splitting for dealer
         std::vector<dark::Card> dealerStack;
 
-        void drawCardDealer();
-        void getDealerSum();
+        void drawCardsDealer(uint8_t n = 1) noexcept;
+        void getDealerSum() const noexcept;
 
     public:
         Game(dark::Player* p);
+        ~Game();
 
-        void start();
-        void reshuffle();
+        void start() noexcept;
+        void reshuffle() noexcept;
+        void finishGame() noexcept;
+
+        dark::Card drawCard() noexcept;
 
     }; 
 }
