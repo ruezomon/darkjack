@@ -1,6 +1,9 @@
+#include <iostream>
+#include <string>
+
 #include "Darkjack.hpp"
 
-dark::Player::Player(uint16_t budget) : budget(budget), game(new dark::Game(this)) {}
+dark::Player::Player(std::string n, uint16_t budget) : budget(budget), game(new dark::Game(this)), name(n) {}
 
 dark::Player::~Player() { delete this->game; }
 
@@ -17,46 +20,36 @@ bool dark::Player::bet(uint16_t amount) noexcept {
 }
 
 bool dark::Player::doubleDown() noexcept {
+    if (this->budget - this->currentBet < 0) return false;
+    this->budget -= this->currentBet;
     this->currentBet *= 2;
+    return true; 
 }
 
 void dark::Player::play() noexcept {
-    playerCardStacks.push_back(std::vector<dark::Card>());
     game->start();
 }
 
 bool dark::Player::hit() noexcept {
-    
+    bool queryForNextMove = true;
+    playerCardStack.push_back(this->game->drawCard());
+    if (this->getSum() == 21) queryForNextMove = false;
+    else if (this->getSum() > 21) queryForNextMove = false;
+    else queryForNextMove = true;
+
+    if (queryForNextMove) queryMove();
+    else stand();
 }
 
 void dark::Player::stand() noexcept {
     this->turn = false;
+    game->finishGame();
 }
 
-bool dark::Player::split(uint8_t deck) noexcept {
-    if (!this->splittable(deck)) return false;
-
-    Card c = playerCardStacks[deck].back();
-    playerCardStacks[deck].pop_back();
-    playerCardStacks.insert(playerCardStacks.begin() + deck + 1, std::vector<dark::Card>({c}));
-    return true;
-}
-
-bool dark::Player::splittable(uint8_t deck) const noexcept {
-    return 
-        this->playerCardStacks.size() > deck && 
-        this->playerCardStacks[deck].size() == 2 && 
-        this->playerCardStacks[deck][0].getImage() == this->playerCardStacks[deck][1].getImage();
-}
-
-bool dark::Player::judge(uint8_t stack) const noexcept {
-
-}
-
-uint8_t dark::Player::getStackSum(uint8_t stack) const noexcept {
+uint8_t dark::Player::getSum() const noexcept {
     uint8_t sum = 0;
     uint8_t aceAmount = 0;
-    for (dark::Card i : playerCardStacks[stack]) {
+    for (dark::Card i : playerCardStack) {
         sum += i.getValue();
         if (i.getImage() == 1) aceAmount++;
     }
@@ -74,12 +67,16 @@ void dark::Player::win() noexcept {
 }
 
 void dark::Player::bust() noexcept {
+    lose();
+}
+
+void dark::Player::lose() noexcept {
     currentBet = 0;
     clearCards();
 }
 
 void dark::Player::clearCards() noexcept {
-    playerCardStacks.clear();
+    playerCardStack.clear();
 }
 
 bool dark::Player::hasTurn() const noexcept {
@@ -87,5 +84,19 @@ bool dark::Player::hasTurn() const noexcept {
 }
 
 void dark::Player::queryMove() noexcept {
-    
+    std::string userInput = "";
+    bool inputValid = false;
+    bool hit;
+    do {
+        std::cout << "Enter your next move: " << std::endl
+                  << "(1/h/hit) ... hit" << std::endl
+                  << "(2/s/stand) ... hit" << std::endl;
+        std::cin >> userInput;
+        if (userInput == "1" || userInput == "h" || userInput == "hit") { hit = true; inputValid = true; }
+        else if (userInput == "2" || userInput == "s" || userInput == "stand") { hit = false; inputValid = true; }
+        else inputValid = false;
+    } while (!inputValid);
+
+    if (hit) this->hit();
+    else this->stand();
 }

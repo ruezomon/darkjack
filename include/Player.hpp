@@ -9,7 +9,10 @@ namespace dark {
 
     class Player {
     private:
-        std::vector<std::vector<dark::Card>> playerCardStacks;
+
+        std::string name;
+        
+        std::vector<dark::Card> playerCardStack;
         int budget = 0;
         int currentBet = 0;
         
@@ -19,7 +22,7 @@ namespace dark {
         void clearCards() noexcept;
 
     public:
-        Player(uint16_t budget = 1000) noexcept;
+        Player(std::string n, uint16_t budget = 1000) noexcept;
         ~Player();
 
         void addBudget(uint16_t amount) noexcept;
@@ -32,14 +35,11 @@ namespace dark {
 
         void stand() noexcept;
 
-        bool split(uint8_t deck) noexcept;
-        bool splittable(uint8_t deck) const noexcept;
-
-        bool judge(uint8_t stack) const noexcept;
-        uint8_t getStackSum(uint8_t stack) const noexcept;
+        uint8_t getSum() const noexcept;
 
         void win() noexcept;
         void bust() noexcept;
+        void lose() noexcept;
 
         bool hasTurn() const noexcept;
         void queryMove() noexcept;

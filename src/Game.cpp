@@ -1,4 +1,4 @@
-#include "Darkjack.hpp"
+#include "../include/Darkjack.hpp"
 
 dark::Game::Game(dark::Player* p) : player(p), stack(new dark::Stack()) {}
 
@@ -7,21 +7,8 @@ dark::Game::~Game() {
     delete playerWatcher;
 }
 
-void dark::Game::start() {
-    this->playerWatcher = new std::thread([this]() {
-        bool playerPlayed = false;
-        while (true) {
-            if (this->player->hasTurn()) {
-                this->player->queryMove(); 
-                playerPlayed = true;
-            } else if (playerPlayed) {
-                this->finishGame();
-                break;
-            }
-            std::this_thread::sleep_for(std::chrono::milliseconds(1000));
-        }
-    });
-    playerWatcher->detach();
+void dark::Game::start() noexcept {
+    drawCardsDealer(2);
 }
 
 void dark::Game::reshuffle() noexcept {
@@ -33,8 +20,33 @@ dark::Card dark::Game::drawCard() noexcept {
     return this->stack->draw();
 }
 
-void dark::Game::drawCardsDealer(uint8_t n) {
+void dark::Game::drawCardsDealer(uint8_t n) noexcept {
     for (uint8_t i = 0; i < n; i++) {
         this->dealerStack.push_back(this->stack->draw());
     }
+}
+
+uint8_t dark::Game::getDealerSum() const noexcept {
+    uint8_t n = 0;
+    uint8_t aces = 0;
+    for (auto i : dealerStack) {
+        n += i.getValue();
+        if (i.getImage() == 1) aces++;
+    }
+
+    uint8_t c = 0;
+    while (n > 21 && c < aces) n -= 10;
+
+    return n;
+}
+
+void dark::Game::finishGame() noexcept {
+    bool _bust = false;
+    bool _lose = false;
+    _bust = player->getSum() > 21;
+    _lose = player->getSum() <= getDealerSum();
+
+    if (_bust) player->bust();
+    else if (_lose) player->lose();
+    else player->win();
 }

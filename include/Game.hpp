@@ -20,7 +20,7 @@ namespace dark {
         std::vector<dark::Card> dealerStack;
 
         void drawCardsDealer(uint8_t n = 1) noexcept;
-        void getDealerSum() const noexcept;
+        uint8_t getDealerSum() const noexcept;
 
     public:
         Game(dark::Player* p);
