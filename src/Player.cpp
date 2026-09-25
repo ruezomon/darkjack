@@ -37,14 +37,14 @@ bool dark::Player::bet(uint16_t amount) noexcept {
 }
 
 bool dark::Player::canDoubleDown() const noexcept {
-    return this->budget > this->currentBet;
+    return this->budget > this->currentBet && mayDoubleDown;
 }
 
 bool dark::Player::doubleDown() noexcept {
     if (!canDoubleDown()) return false;
     this->budget -= this->currentBet;
     this->currentBet *= 2;
-    std::cout << name << " has raised their bet to " << currentBet << "$" << std::endl;
+    std::cout << GREEN << name << " has raised their bet to " << currentBet << "$" << RESET << std::endl;
     return true; 
 }
 
@@ -91,7 +91,9 @@ uint8_t dark::Player::getSum() const noexcept {
 }
 
 void dark::Player::win() noexcept {
+    std::cout << GREEN;
     std::cout << name << " has won!" << std::endl;
+    std::cout << RESET;
 
     budget += currentBet * 2;
     currentBet = 0;
@@ -105,7 +107,9 @@ void dark::Player::bust() noexcept {
 
 void dark::Player::lose() noexcept {
     currentBet = 0;
+    std::cout << YELLOW;
     std::cout << name << " has lost!" << std::endl;
+    std::cout << RESET;
     clearCards();
 }
 
@@ -124,25 +128,24 @@ void dark::Player::queryMove() noexcept {
     std::string userInput = "";
     bool inputValid = false;
     bool hit;
-    bool _canDoubleDown = true;
     do {
         std::cout << "Enter your next move: " << std::endl
                   << "(1/h/hit) ........... hit" << std::endl
                   << "(2/s/stand) ....... stand" << std::endl;
-        if (_canDoubleDown && canDoubleDown()) 
+        if (canDoubleDown()) 
             std::cout << "(3/d/dd) .... double down" << std::endl;
         std::cout << "Choice: " << std::flush;
         std::cin >> userInput;
 
-        if (_canDoubleDown && canDoubleDown() && (userInput == "3" || userInput == "d" || userInput == "dd")) doubleDown();
+        if (canDoubleDown() && (userInput == "3" || userInput == "d" || userInput == "dd")) doubleDown();
 
         if (userInput == "1" || userInput == "h" || userInput == "hit") { hit = true; inputValid = true; }
         else if (userInput == "2" || userInput == "s" || userInput == "stand") { hit = false; inputValid = true; }
         else { inputValid = false; }
 
-        _canDoubleDown = false;
     } while (!inputValid);
     std::cout << std::endl;
+    mayDoubleDown = false;
 
     if (hit) this->hit();
     else this->stand();

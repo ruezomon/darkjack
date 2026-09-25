@@ -11,6 +11,7 @@ namespace dark {
     private:
 
         std::string name;
+        bool mayDoubleDown = true;
         
         std::vector<dark::Card> playerCardStack;
         uint16_t budget = 0;
