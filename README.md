@@ -19,7 +19,7 @@ $ ./
 ## TODO
 - Make custom bets
 - Save your budget in a .toml or something similar
- - When on 0$, somebody else might just feel charitable enough to give you a dime or two...
+    - When on 0$, somebody else might just feel charitable enough to give you a dime or two...
 - Make the game understand, that when the dealer wins/loses, the round must stop lol
 - Multiple rounds (play again Y/n)
 
