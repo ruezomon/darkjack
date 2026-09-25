@@ -14,6 +14,9 @@ void dark::Game::start() noexcept {
     printDealerCards();
     player->giveCard(false);
     player->giveCard(true);
+
+    if (getDealerSum() >= 21) this->instantFinishGame();
+
     player->queryMove();
 }
 
@@ -41,9 +44,23 @@ uint8_t dark::Game::getDealerSum() const noexcept {
     }
 
     uint8_t c = 0;
-    while (n > 21 && c < aces) n -= 10;
+    while (n > 21 && c < aces) { n -= 10; c++; }
 
     return n;
+}
+
+void dark::Game::instantFinishGame() {
+    if (getDealerSum() == 21) {
+        std::cout << std::endl 
+                  << "Dealer got Blackjack!" << std::endl;
+        player->lose();
+    } else if (getDealerSum() > 21) {
+        std::cout << std::endl 
+                  << "Dealer busted!" << std::endl;
+        player->win();
+    } else {
+        throw "game ended too early";
+    }
 }
 
 void dark::Game::finishGame() noexcept {

@@ -18,6 +18,7 @@ namespace dark {
         std::vector<dark::Card> dealerStack;
 
         void printDealerCards() noexcept;
+        void instantFinishGame();
 
         void drawCardsDealer(uint8_t n = 1) noexcept;
         void drawRestOfDealerCards() noexcept;

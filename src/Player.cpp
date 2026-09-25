@@ -85,6 +85,7 @@ uint8_t dark::Player::getSum() const noexcept {
     uint8_t i = 0;
     while (sum > 21 && i < aceAmount) {
         sum -= 10;
+        i++;
     }
     return sum;
 }
@@ -141,6 +142,7 @@ void dark::Player::queryMove() noexcept {
 
         _canDoubleDown = false;
     } while (!inputValid);
+    std::cout << std::endl;
 
     if (hit) this->hit();
     else this->stand();

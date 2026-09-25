@@ -1,8 +1,12 @@
+#include <iostream>
+
 #include "Darkjack.hpp"
+#include "utils.hpp"
 
 int main() {
-    
-    dark::Player p("ruezomon", 300);
+    clearScreen();
+
+    dark::Player p("ruezomon", 1000);
     p.bet(200);
     return 0;
 }
