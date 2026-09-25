@@ -36,8 +36,12 @@ bool dark::Player::bet(uint16_t amount) noexcept {
     return true;
 }
 
+bool dark::Player::canDoubleDown() const noexcept {
+    return this->budget > this->currentBet;
+}
+
 bool dark::Player::doubleDown() noexcept {
-    if (this->budget < this->currentBet) return false;
+    if (!canDoubleDown()) return false;
     this->budget -= this->currentBet;
     this->currentBet *= 2;
     std::cout << name << " has raised their bet to " << currentBet << "$" << std::endl;
@@ -119,17 +123,23 @@ void dark::Player::queryMove() noexcept {
     std::string userInput = "";
     bool inputValid = false;
     bool hit;
+    bool _canDoubleDown = true;
     do {
         std::cout << "Enter your next move: " << std::endl
                   << "(1/h/hit) ........... hit" << std::endl
-                  << "(2/s/stand) ....... stand" << std::endl
-                  << "(3/d/dd) .... double down" << std::endl;
+                  << "(2/s/stand) ....... stand" << std::endl;
+        if (_canDoubleDown && canDoubleDown()) 
+            std::cout << "(3/d/dd) .... double down" << std::endl;
+        std::cout << "Choice: " << std::flush;
         std::cin >> userInput;
+
+        if (_canDoubleDown && canDoubleDown() && (userInput == "3" || userInput == "d" || userInput == "dd")) doubleDown();
+
         if (userInput == "1" || userInput == "h" || userInput == "hit") { hit = true; inputValid = true; }
         else if (userInput == "2" || userInput == "s" || userInput == "stand") { hit = false; inputValid = true; }
-        else inputValid = false;
+        else { inputValid = false; }
 
-        if (userInput == "3" || userInput == "d" || userInput == "dd") doubleDown();
+        _canDoubleDown = false;
     } while (!inputValid);
 
     if (hit) this->hit();

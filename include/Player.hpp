@@ -37,6 +37,8 @@ namespace dark {
         uint8_t getSum() const noexcept;
         uint16_t getBudget() const noexcept;
 
+        bool canDoubleDown() const noexcept;
+
         void giveCard(bool verbal = true) noexcept;
 
         void win() noexcept;
