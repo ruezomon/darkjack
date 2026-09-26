@@ -41,8 +41,8 @@ bool dark::Player::canDoubleDown() const noexcept {
 }
 
 bool dark::Player::doubleDown() noexcept {
+    mayDoubleDown = false;
     if (!canDoubleDown()) return false;
-    this->mayDoubleDown = false;
     this->budget -= this->currentBet;
     this->currentBet *= 2;
     std::cout << GREEN << name << " has raised their bet to " << currentBet << "$" << RESET << std::endl;
@@ -54,6 +54,7 @@ void dark::Player::play() noexcept {
 }
 
 void dark::Player::hit() noexcept {
+    mayDoubleDown = false;
     bool queryForNextMove = true;
     playerCardStack.push_back(this->game->drawCard());
     if (this->getSum() == 21) queryForNextMove = false;

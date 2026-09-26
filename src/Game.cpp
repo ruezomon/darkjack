@@ -16,8 +16,7 @@ void dark::Game::start() noexcept {
     player->giveCard(true);
 
     if (getDealerSum() >= 21 || player->getSum() == 21) this->instantFinishGame();
-
-    player->queryMove();
+    else player->queryMove();
 }
 
 void dark::Game::reshuffle() noexcept {
@@ -72,9 +71,9 @@ void dark::Game::finishGame() noexcept {
     uint8_t playerSum = player->getSum();
     uint8_t dealerSum = getDealerSum();
 
-    if (playerSum > 21) player->bust();
+    if (playerSum == dealerSum) player->push();
+    else if (playerSum > 21) player->bust();
     else if (dealerSum > 21 || playerSum > dealerSum) player->win();
-    else if (playerSum == dealerSum) player->push();
     else player->lose();
 }
 
