@@ -5,7 +5,8 @@ Shitty Blackjack port for Terminal :D
 Don't expect this to be good, i just wanna get the core Blackjack mechanics into the game, wish me luck.
 
 ## How to play
-In progress...
+The goal of the Game will be reaching a certain amount of money. 
+Game over when you reach 0$.
 
 ## How to compile
 From the root directory of the repo:
@@ -18,9 +19,6 @@ $ ./
 
 ## TODO
 - Make custom bets
-- Save your budget in a .toml or something similar
-    - When on 0$, somebody else might just feel charitable enough to give you a dime or two...
-- Make the game understand, that when the dealer wins/loses, the round must stop lol
 - Multiple rounds (play again Y/n)
 
 ## Should I play this?
