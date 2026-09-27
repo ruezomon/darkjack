@@ -41,8 +41,8 @@ bool dark::Player::canDoubleDown() const noexcept {
 }
 
 bool dark::Player::doubleDown() noexcept {
-    mayDoubleDown = false;
     if (!canDoubleDown()) return false;
+    mayDoubleDown = false;
     this->budget -= this->currentBet;
     this->currentBet *= 2;
     std::cout << GREEN << name << " has raised their bet to " << currentBet << "$" << RESET << std::endl;
