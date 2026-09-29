@@ -12,6 +12,7 @@ dark::Game::~Game() {
 
 void dark::Game::start() noexcept {
     clearScreen();
+    reshuffle();
     drawCardsDealer(2);
     printDealerCards();
     player->giveCard(false);
