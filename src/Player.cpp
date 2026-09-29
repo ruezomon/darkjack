@@ -50,6 +50,7 @@ bool dark::Player::doubleDown() noexcept {
 }
 
 void dark::Player::play() noexcept {
+    mayDoubleDown = true;
     game->start();
 }
 
