@@ -17,12 +17,7 @@ $ make
 $ ./
 ```
 
-## TODO
-- Make custom bets
-- Multiple rounds (play again Y/n)
+Although... with every release there is a binary attached :3
 
 ## Should I play this?
 For the sake of your time, it would be better not to. 
-
-
-I just wanna get a project done for once :(
