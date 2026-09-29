@@ -2,6 +2,7 @@
 
 #include "Darkjack.hpp"
 #include "ColorDefinitions.hpp"
+#include "utils.hpp"
 
 dark::Game::Game(dark::Player* p) : player(p), stack(new dark::Stack()) {}
 
@@ -10,6 +11,7 @@ dark::Game::~Game() {
 }
 
 void dark::Game::start() noexcept {
+    clearScreen();
     drawCardsDealer(2);
     printDealerCards();
     player->giveCard(false);
@@ -70,6 +72,8 @@ void dark::Game::finishGame() noexcept {
 
     uint8_t playerSum = player->getSum();
     uint8_t dealerSum = getDealerSum();
+
+    dealerStack.clear();
 
     if (playerSum == dealerSum) player->push();
     else if (playerSum > 21) player->bust();
