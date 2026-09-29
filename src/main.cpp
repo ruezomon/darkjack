@@ -11,6 +11,7 @@ int main() {
     signal(SIGINT, [](int s) {
         clearScreen();
         std::cout << CYAN << "Don't wanna play? Scram!" << RESET << std::endl; 
+        exit(0);
     });
 
     clearScreen();
