@@ -37,7 +37,7 @@ bool dark::Player::bet(uint16_t amount) noexcept {
 }
 
 bool dark::Player::canDoubleDown() const noexcept {
-    return this->budget > this->currentBet && mayDoubleDown;
+    return this->budget >= this->currentBet && mayDoubleDown;
 }
 
 bool dark::Player::doubleDown() noexcept {
